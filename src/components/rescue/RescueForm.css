@@ -1,0 +1,57 @@
+#report-section {
+  background-color: #f9f9f9;
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+video {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+img.preview,
+.preview {
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 100%;
+  border: 2px solid #ccc;
+}
+
+.rescue-card {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.btn-teal {
+  background-color: #20c997;
+  color: white;
+  border: none;
+}
+
+.btn-teal:hover {
+  background-color: #17a589;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  #report-section {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .form-control {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+}
