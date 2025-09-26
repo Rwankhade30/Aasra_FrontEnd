@@ -8,7 +8,7 @@ const RescueForm = () => {
     description: '',
     contact_name: '',
     contact_number: '',
-    status: 'Pending', // ✅ Default status
+    status: 'Requested', // ✅ Default status
   });
 
   const [preview, setPreview] = useState(null);
@@ -96,7 +96,7 @@ const RescueForm = () => {
     const newRescue = {
       id: Date.now(),
       ...formData,
-      status: 'Pending', // ✅ Ensure it's set explicitly
+      status: 'Requested', // ✅ Ensure it's set explicitly
       preview
     };
 
@@ -113,7 +113,7 @@ const RescueForm = () => {
         description: '',
         contact_name: '',
         contact_number: '',
-        status: 'Pending'
+        status: 'Requested'
       });
       setPreview(null);
       setLoading(false);
