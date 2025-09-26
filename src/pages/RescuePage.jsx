@@ -65,7 +65,7 @@ const RescuePage = () => {
       {/* Add New Rescue */}
       <div className="text-center mt-4">
             <Link to="/rescues/new" className="btn btn-primary">
-                Add New Rescue
+                Recent Animal Reports
             </Link>      
         </div>
 
