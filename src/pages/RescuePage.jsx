@@ -62,9 +62,9 @@ const RescuePage = () => {
         </Container>
       </header>
 
-      {/* Add New Rescue */}
+      {/* View Recent Rescues */}
       <div className="text-center mt-4">
-            <Link to="/rescues/new" className="btn btn-primary">
+            <Link to="/rescues/viewstories" className="btn btn-primary">
                 Recent Animal Reports
             </Link>      
         </div>

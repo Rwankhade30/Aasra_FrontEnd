@@ -18,14 +18,17 @@ function Home() {
       >
         {/* Optional Background Pattern */}
         <div
-          className="position-absolute top-0 start-0 w-100 h-100 opacity-10"
+          className="position-absolute top-0 start-0 w-100 h-100"
           style={{
             pointerEvents: "none",
-            backgroundImage:
-              'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'0.03\'%3E%3Cpath d=\'M26.5 20.45c-.79.32-1.73-.18-2.1-1.09-.37-.91-.04-1.9.75-2.21.79-.31 1.73.18 2.1 1.09.36.91.03 1.9-.75 2.21z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-            backgroundSize: "cover",
+                  backgroundImage: 'url("/paw.png")',
+            backgroundRepeat: "no-repeat",            // IMPORTANT: prevents tiling
+            backgroundPosition: "21% 47%",        // change X Y to move the paw
+            backgroundSize: "80px 80px",             // size of the paw image
+            opacity: 0.9,
           }}
         />
+
 
         <div className="container position-relative py-5">
           <div className="row align-items-center">

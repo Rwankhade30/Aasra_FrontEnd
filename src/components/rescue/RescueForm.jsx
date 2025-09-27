@@ -95,41 +95,103 @@ const RescueForm = () => {
     return errs;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) {
-      setFieldErrors(errs);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const errs = validate();
+  if (Object.keys(errs).length) {
+    setFieldErrors(errs);
+    return;
+  }
+
+  setLoading(true);
+  setFieldErrors({});
+
+  try {
+    // Build FormData
+    const fd = new FormData();
+
+    // If formData.image is a Blob (from canvas) or a File, ensure it's appended as a File
+    if (formData.image) {
+      const file =
+        formData.image instanceof File
+          ? formData.image
+          : new File([formData.image], `photo-${Date.now()}.jpg`, { type: 'image/jpeg' });
+      fd.append('image', file);
+    }
+
+    fd.append('location', formData.location);
+    fd.append('description', formData.description);
+    fd.append('contact_name', formData.contact_name || '');
+    fd.append('contact_number', formData.contact_number || '');
+    fd.append('category', formData.category);
+    fd.append('urgency', formData.urgency);
+
+    // NOTE: change to your API origin/port if different (e.g. http://localhost:4000)
+    const API_URL = 'http://localhost:5000/api/rescues';
+
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: fd
+      // do NOT set Content-Type — browser will set the correct multipart boundary
+    });
+
+    const body = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      // If server returned field-level validation errors, show them
+      if (body && body.errors) {
+        setFieldErrors(body.errors);
+      } else {
+        // generic error
+        alert(body.error || 'Failed to submit rescue. Please try again.');
+      }
+      setLoading(false);
       return;
     }
 
-    const newRescue = {
-      id: Date.now(),
-      ...formData,
-      status: 'Requested',
-      preview
+    // Success — server returns the created rescue document
+    const created = body;
+
+    // Create a preview URL for immediate UI display (if server returned imageUrl, build absolute URL)
+  const previewUrl = created.imageUrl
+    ? (created.imageUrl.startsWith('http')
+        ? created.imageUrl
+        : `http://localhost:5000${created.imageUrl}`)
+    : preview;
+
+    const rescueWithPreview = {
+      id: created._id || created.id || Date.now().toString(),
+      ...created,
+      preview: previewUrl
     };
 
-    setLoading(true);
-    setTimeout(() => {
-      setRescues(prev => [newRescue, ...prev]);
-      setSubmitted(true);
-      setFormData({
-        image: null,
-        location: '',
-        description: '',
-        contact_name: '',
-        contact_number: '',
-        category: '',
-        urgency: '',
-        status: 'Requested'
-      });
-      setPreview(null);
-      setFieldErrors({});
-      setLoading(false);
-      setTimeout(() => setSubmitted(false), 3000);
-    }, 700);
-  };
+    setRescues(prev => [rescueWithPreview, ...prev]);
+    setSubmitted(true);
+
+    // Reset form state (same shape as your original)
+    setFormData({
+      image: null,
+      location: '',
+      description: '',
+      contact_name: '',
+      contact_number: '',
+      category: '',
+      urgency: '',
+      status: 'Requested'
+    });
+    setPreview(null);
+    stopCamera();         // stop camera if active (you already have this fn)
+    setFieldErrors({});
+    setLoading(false);
+
+    setTimeout(() => setSubmitted(false), 3000);
+  } catch (err) {
+    console.error('Submit error', err);
+    alert('Network or server error. Please try again.');
+    setLoading(false);
+  }
+};
 
   return (
     <section id="report-section" className="py-5">
