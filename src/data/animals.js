@@ -1,7 +1,5 @@
-import React from 'react';
-import FeaturedAnimalCard from '../../pages/FeaturedAnimalCard';
-
-const defaultExtraAnimals = [
+// src/data/animals.js
+const animals = [
   {
     id: 1,
     name: "Bruno",
@@ -26,7 +24,7 @@ const defaultExtraAnimals = [
     adoption_status: "Available",
     shelter: { name: "Main Shelter" },
     tags: ["Playful", "Affectionate"],
-    image: "/assets/images/animals/catt.jpg"  ,
+    image: "/assets/images/animals/catt.jpg",
   },
   {
     id: 3,
@@ -39,7 +37,7 @@ const defaultExtraAnimals = [
     adoption_status: "Available",
     shelter: { name: "Main Shelter" },
     tags: ["Gentle", "Curious"],
-    image: "/assets/images/animals/rabbit.jpg", 
+    image: "/assets/images/animals/rabbit.jpg",
   },
   {
     id: 4,
@@ -52,32 +50,8 @@ const defaultExtraAnimals = [
     adoption_status: "Available",
     shelter: { name: "Main Shelter" },
     tags: ["Calm", "Friendly"],
-    image: "/assets/images/animals/cow.jpg", 
+    image: "/assets/images/animals/cow.jpg",
   },
 ];
 
-const AvailableAnimals = ({ animals = [], extraAnimals = defaultExtraAnimals }) => {
-  // Combine provided animals with extras (extras appended)
-  const allAnimals = [...animals, ...extraAnimals];
-
-  if (!allAnimals.length) {
-    return (
-      <p className="text-center text-muted">
-        No animals available for adoption at the moment.
-      </p>
-    );
-  }
-
-  return (
-    <div className="row row-cols-1 row-cols-md-3 g-4">
-      {allAnimals.map((animal) => (
-        <div key={animal.id} className="col">
-          {/* Pass the full animal object through — ensure FeaturedAnimalCard handles these fields */}
-          <FeaturedAnimalCard animal={animal} />
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default AvailableAnimals;
+export default animals;

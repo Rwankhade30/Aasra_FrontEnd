@@ -49,14 +49,13 @@ const AdoptionsPage = () => {
   return (
     <div className="container py-5">
       {/* Adoption Requests */}
-      <section className="mb-5">
+      <section>
         <h2 className="text-center fs-3 fw-bold text-primary mb-4">My Adoption Requests</h2>
         <AdoptionRequests requests={adoptionRequests} />
       </section>
 
       {/* Filter Form */}
-      <section className="mb-5">
-        <h2 className="text-center fs-4 fw-semibold text-warning mb-4">Find Your Perfect Match</h2>
+      <section>
         <AdoptionFilterForm
           filters={filters}
           onFilterChange={handleFilterChange}
@@ -66,7 +65,7 @@ const AdoptionsPage = () => {
       </section>
 
       {/* Available Animals */}
-      <section className="py-5 bg-light rounded mb-5">
+      <section className="bg-light rounded mb-5">
         <div className="text-center mb-4">
           <h2 className="fs-2 fw-bold text-success">Available Animals</h2>
           <p className="text-muted col-md-8 offset-md-2">

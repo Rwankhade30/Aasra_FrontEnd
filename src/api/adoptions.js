@@ -16,21 +16,7 @@ export const fetchAdoptionRequests = async () => {
 };
 
 export const fetchAnimals = async () => {
-  return [
-    {
-      id: 1,
-      name: "Bruno",
-      breed: { name: "Labrador" },
-      category: { name: "Dog" },
-      gender: "male",
-      age: "adult",
-      size: "large",
-      adoption_status: "Available",
-      shelter: { name: "Main Shelter" },
-      tags: ["Friendly", "Energetic"],
-      image: "https://placekitten.com/400/300"
-    }
-  ];
+  return []
 };
 
 export const fetchFilters = async () => {

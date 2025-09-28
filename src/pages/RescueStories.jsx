@@ -66,7 +66,7 @@ const RescueList = () => {
                       src={imgSrc}
                       className="img-fluid rounded-start h-100"
                       alt={r.category || "Rescued animal"}
-                      style={{ objectFit: "cover" }}
+                      style={{ objectFit: "cover", width: "100px" , height: "100px"}}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
                         e.currentTarget.src = placeholder;
