@@ -9,11 +9,11 @@ import Home from "./pages/Home";
 import AnimalDetails from "./pages/AnimalDetails";
 import AdoptionsPage from "./pages/AdoptionsPage";
 import RescuePage from "./pages/RescuePage"; // ✅ Corrected import
-import RescueForm from "./components/rescue/RescueForm"; // adjust path if needed
+import RescueForm from "./components/rescue/RescueForm"; 
 import Donate from "./pages/Donate";
 import AdoptionForm from "./components/adoption/AdoptionForm";
 import RescueList from "./pages/RescueStories"; // ✅ Corrected import
-
+import Shelter from "./pages/Shelter"; 
 
 // Optional: a simple dashboard placeholder (replace with your protected dashboard)
 function Dashboard() {
@@ -60,6 +60,7 @@ function App() {
         />
         <Route path="/rescues/new" element={<RescueForm />} />
         <Route path="/rescues/viewstories" element={<RescueList />} />
+        <Route path="/shelters" element={<Shelter />} />
       </Routes>
       <Footer />
     </Router>
