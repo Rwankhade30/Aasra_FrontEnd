@@ -14,6 +14,7 @@ import Donate from "./pages/Donate";
 import AdoptionForm from "./components/adoption/AdoptionForm";
 import RescueList from "./pages/RescueStories"; // ✅ Corrected import
 import Shelter from "./pages/Shelter"; 
+import DonatePage from "./pages/Donate";
 
 // Optional: a simple dashboard placeholder (replace with your protected dashboard)
 function Dashboard() {
@@ -61,6 +62,8 @@ function App() {
         <Route path="/rescues/new" element={<RescueForm />} />
         <Route path="/rescues/viewstories" element={<RescueList />} />
         <Route path="/shelters" element={<Shelter />} />
+        <Route path="/donate" element={<DonatePage />} />
+<Route path="/donation-success" element={<div className="container py-5"><h2>Thank you! ❤️</h2><p>We’ve recorded your donation.</p></div>} />
       </Routes>
       <Footer />
     </Router>
