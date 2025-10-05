@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useUser } from "../../context/UserContext";
 import { useLocation } from "react-router-dom";
-import AdoptionRequests from "./AdoptionRequests"; // ✅ import the reusable component
 
 const AdoptionForm = ({ onSubmitSuccess }) => {
-  const user = useUser();
+  // ⬇️ expects your UserContext to provide { user, updateUser }
+  const { user, updateUser } = useUser();
   const location = useLocation();
 
   const animalName = location.state?.animalName || "Unknown";
@@ -20,8 +20,9 @@ const AdoptionForm = ({ onSubmitSuccess }) => {
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
-  const [adoptionRequests, setAdoptionRequests] = useState([]);
+  const [submittedData, setSubmittedData] = useState(null);
 
+  // Prefill form from context (and keep it in sync if context changes)
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
@@ -35,37 +36,40 @@ const AdoptionForm = ({ onSubmitSuccess }) => {
   }, [user]);
 
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newRequest = {
-      id: Date.now(),
+    // Save the user-identifying fields into global context so they change per user
+    updateUser({
+      full_name: formData.full_name.trim(),
+      email: formData.email.trim(),
+      phone_number: formData.phone_number.trim(),
+      address: formData.address.trim(),
+    });
+
+    const newSubmission = {
+      full_name: formData.full_name.trim(),
+      email: formData.email.trim(),
+      phone_number: formData.phone_number.trim(),
+      address: formData.address.trim(),
+      reason: formData.reason.trim(),
       animal: { name: animalName },
-      housing_type: "Apartment",
-      have_pets: true,
-      experience: formData.reason,
-      preferred_pet: animalName,
-      status: "Requested",
       created_at: new Date(),
     };
 
-    setAdoptionRequests((prev) => [newRequest, ...prev]);
+    // TODO: POST newSubmission to your API here if needed
+    // await api.submitAdoptionRequest(newSubmission);
+
+    setSubmittedData(newSubmission);
     setShowSuccess(true);
+    if (onSubmitSuccess) onSubmitSuccess();
 
-    if (onSubmitSuccess) {
-      onSubmitSuccess();
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      reason: "",
-    }));
+    // Clear only the reason field so user data remains
+    setFormData((prev) => ({ ...prev, reason: "" }));
   };
 
   return (
@@ -79,6 +83,7 @@ const AdoptionForm = ({ onSubmitSuccess }) => {
           </Alert>
         )}
 
+        {/* If you want to hide the form after submission, wrap this in: {!submittedData && (...) } */}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Full Name</Form.Label>
@@ -88,7 +93,7 @@ const AdoptionForm = ({ onSubmitSuccess }) => {
               value={formData.full_name}
               onChange={handleChange}
               required
-              disabled
+              placeholder="Your full name"
             />
           </Form.Group>
 
@@ -100,19 +105,20 @@ const AdoptionForm = ({ onSubmitSuccess }) => {
               value={formData.email}
               onChange={handleChange}
               required
-              disabled
+              placeholder="you@example.com"
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Phone Number</Form.Label>
             <Form.Control
-              type="text"
+              type="tel"
               name="phone_number"
               value={formData.phone_number}
               onChange={handleChange}
               required
-              disabled
+              placeholder="1234567890"
+              pattern="[0-9+\-\s()]{7,}" // simple client-side validation
             />
           </Form.Group>
 
@@ -125,7 +131,7 @@ const AdoptionForm = ({ onSubmitSuccess }) => {
               value={formData.address}
               onChange={handleChange}
               required
-              disabled
+              placeholder="City, Country"
             />
           </Form.Group>
 
@@ -148,12 +154,41 @@ const AdoptionForm = ({ onSubmitSuccess }) => {
         </Form>
       </Card>
 
-      {/* ✅ Use shared AdoptionRequests component */}
-      {adoptionRequests.length > 0 && (
-        <div className="mt-4">
-          <h5 className="mb-3">📋 My Adoption Requests</h5>
-          <AdoptionRequests requests={adoptionRequests} setRequests={setAdoptionRequests} />
-        </div>
+      {/* ✅ Submission summary (shown after submit) */}
+      {submittedData && (
+        <Card className="mx-auto p-4 shadow mt-4" style={{ maxWidth: "600px" }}>
+          <h5 className="mb-3 text-center text-success">🎉 Adoption Request Submitted</h5>
+          <p className="text-center text-muted mb-3">Here are your submitted details:</p>
+
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
+              <strong>Full Name:</strong> {submittedData.full_name}
+            </li>
+            <li className="list-group-item">
+              <strong>Email:</strong> {submittedData.email}
+            </li>
+            <li className="list-group-item">
+              <strong>Phone:</strong> {submittedData.phone_number}
+            </li>
+            <li className="list-group-item">
+              <strong>Address:</strong> {submittedData.address}
+            </li>
+            <li className="list-group-item">
+              <strong>Reason to Adopt:</strong> {submittedData.reason}
+            </li>
+            {submittedData.animal?.name && (
+              <li className="list-group-item">
+                <strong>Animal:</strong> {submittedData.animal.name}
+              </li>
+            )}
+            {submittedData.created_at && (
+              <li className="list-group-item">
+                <strong>Submitted:</strong>{" "}
+                {new Date(submittedData.created_at).toLocaleDateString()}
+              </li>
+            )}
+          </ul>
+        </Card>
       )}
     </div>
   );

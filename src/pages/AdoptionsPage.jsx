@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   fetchAdoptionRequests,
   fetchAnimals,
-  fetchFilters
+  // fetchFilters
 } from '../api/adoptions';
 
 import AdoptionRequests from '../components/adoption/AdoptionRequests';
@@ -21,36 +21,36 @@ const AdoptionsPage = () => {
     gender: '',
     size: ''
   });
-  const [filterOptions, setFilterOptions] = useState({
-    categories: [],
-    breeds: [],
-    ages: [],
-    genders: [],
-    sizes: []
-  });
+  // const [filterOptions, setFilterOptions] = useState({
+  //   categories: [],
+  //   breeds: [],
+  //   ages: [],
+  //   genders: [],
+  //   sizes: []
+  // });
 
   useEffect(() => {
     fetchAdoptionRequests().then(setAdoptionRequests);
     fetchAnimals().then(setAnimals);
-    fetchFilters().then(setFilterOptions);
+    // fetchFilters().then(setFilterOptions);
   }, []);
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleFilterChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFilters((prev) => ({ ...prev, [name]: value }));
+  // };
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const data = await fetchAnimals(filters);
-    setAnimals(data);
-  };
+  // const handleSearch = async (e) => {
+  //   e.preventDefault();
+  //   const data = await fetchAnimals(filters);
+  //   setAnimals(data);
+  // };
 
   return (
     <div className="container py-5">
       {/* Adoption Requests */}
       <section>
-        <h2 className="text-center fs-3 fw-bold text-primary mb-4"> Animal Adoption </h2>
+        <h2 className="text-center fs-3 fw-bold text-primary mb-4"> Adoption Requests</h2>
         <AdoptionRequests requests={adoptionRequests} />
       </section>
 
@@ -61,8 +61,8 @@ const AdoptionsPage = () => {
           onFilterChange={handleFilterChange}
           onSubmit={handleSearch}
           options={filterOptions}
-        /> */}
-      {/* </section> */}
+        />
+      </section> */}
 
       {/* Available Animals */}
       <section className="bg-light rounded mb-5">

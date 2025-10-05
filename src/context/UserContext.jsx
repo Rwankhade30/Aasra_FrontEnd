@@ -1,20 +1,23 @@
 // src/context/UserContext.jsx
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 
-const UserContext = createContext();
+const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-  // Simulated user (replace with real auth logic later)
-  const user = {
-    full_name: "Prathamesh Gatfane",
-    email: "you@example.com",
-    phone_number: "1234567890",
-    address: "Pune, India",
-  };
+  // If you want defaults, keep them here. Otherwise start empty.
+  const [user, setUser] = useState({
+    full_name: "",
+    email: "",
+    phone_number: "",
+    address: "",
+  });
 
-  return (
-    <UserContext.Provider value={user}>{children}</UserContext.Provider>
-  );
+  // Optional: you can expose a helper to update user partially
+  const updateUser = (partial) => setUser((prev) => ({ ...prev, ...partial }));
+
+  const value = useMemo(() => ({ user, setUser, updateUser }), [user]);
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => useContext(UserContext);
