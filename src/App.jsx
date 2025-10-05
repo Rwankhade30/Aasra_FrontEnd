@@ -63,7 +63,7 @@ function App() {
         <Route path="/rescues/viewstories" element={<RescueList />} />
         <Route path="/shelters" element={<Shelter />} />
         <Route path="/donate" element={<DonatePage />} />
-<Route path="/donation-success" element={<div className="container py-5"><h2>Thank you! ❤️</h2><p>We’ve recorded your donation.</p></div>} />
+        <Route path="/donation-success" element={<div className="container py-5"><h2>Thank you! ❤️</h2><p>We’ve recorded your donation.</p></div>} />
       </Routes>
       <Footer />
     </Router>

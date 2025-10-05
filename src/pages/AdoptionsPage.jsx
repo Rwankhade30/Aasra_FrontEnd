@@ -7,7 +7,7 @@ import {
 } from '../api/adoptions';
 
 import AdoptionRequests from '../components/adoption/AdoptionRequests';
-import AdoptionFilterForm from '../components/adoption/AdoptionFilterForm';
+// import AdoptionFilterForm from '../components/adoption/AdoptionFilterForm';
 import AvailableAnimals from '../components/adoption/AvailableAnimals';
 import AdoptionProcessSteps from '../components/adoption/AdoptionProcessSteps';
 
@@ -50,19 +50,19 @@ const AdoptionsPage = () => {
     <div className="container py-5">
       {/* Adoption Requests */}
       <section>
-        <h2 className="text-center fs-3 fw-bold text-primary mb-4">My Adoption Requests</h2>
+        <h2 className="text-center fs-3 fw-bold text-primary mb-4"> Animal Adoption </h2>
         <AdoptionRequests requests={adoptionRequests} />
       </section>
 
       {/* Filter Form */}
-      <section>
+      {/* <section>
         <AdoptionFilterForm
           filters={filters}
           onFilterChange={handleFilterChange}
           onSubmit={handleSearch}
           options={filterOptions}
-        />
-      </section>
+        /> */}
+      {/* </section> */}
 
       {/* Available Animals */}
       <section className="bg-light rounded mb-5">

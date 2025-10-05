@@ -41,7 +41,7 @@ const AdoptionRequests = ({ requests: initialRequests }) => {
   if (!requests || requests.length === 0) {
     return (
       <p className="text-center text-gray-500">
-        You haven’t submitted any adoption requests yet.
+        Adopt Your Best Friend Today!
       </p>
     );
   }
