@@ -43,7 +43,7 @@ const RescueList = () => {
   }
 
   const placeholder =
-    "https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80";
+    "/assets/images/animals/giv.jpeg";
 
   return (
     <div className="container py-5">

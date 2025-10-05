@@ -1,20 +1,23 @@
 // src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/common/Navbar";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
 import Footer from "./components/common/Footer";
+
 import Home from "./pages/Home";
 import AnimalDetails from "./pages/AnimalDetails";
 import AdoptionsPage from "./pages/AdoptionsPage";
-import RescuePage from "./pages/RescuePage"; // ✅ Corrected import
-import RescueForm from "./components/rescue/RescueForm"; 
-import Donate from "./pages/Donate";
+import RescuePage from "./pages/RescuePage";
+import RescueForm from "./components/rescue/RescueForm";
 import AdoptionForm from "./components/adoption/AdoptionForm";
-import RescueList from "./pages/RescueStories"; // ✅ Corrected import
-import Shelter from "./pages/Shelter"; 
-import DonatePage from "./pages/Donate";
+import RescueList from "./pages/RescueStories";
+import SuccessStoriesPage from "./pages/SuccessStoriesPage";
+import Shelter from "./pages/Shelter";
+import DonatePage from "./pages/Donate"; // keep ONE donate page
+
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 // Optional: a simple dashboard placeholder (replace with your protected dashboard)
 function Dashboard() {
@@ -30,20 +33,14 @@ function App() {
   return (
     <Router>
       <Navbar />
+
       <Routes>
+        {/* Home */}
         <Route path="/" element={<Home />} />
+
+        {/* Animals */}
         <Route path="/animal/:id" element={<AnimalDetails />} />
         <Route path="/adoptions" element={<AdoptionsPage />} />
-        <Route path="/rescues" element={<RescuePage />} />
-        <Route path="/donate" element={<Donate />} />
-
-        {/* Registration & Login routes added below */}
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-
-        {/* Example protected route placeholder */}
-        <Route path="/dashboard" element={<Dashboard />} />
-
         <Route
           path="/adoption-form"
           element={
@@ -59,12 +56,51 @@ function App() {
             />
           }
         />
+
+        {/* Rescues */}
+        <Route path="/rescues" element={<RescuePage />} />
         <Route path="/rescues/new" element={<RescueForm />} />
         <Route path="/rescues/viewstories" element={<RescueList />} />
+
+        {/* ✅ Success Stories (expanded list) */}
+        <Route path="/success-stories" element={<SuccessStoriesPage />} />
+
+        {/* Shelters */}
         <Route path="/shelters" element={<Shelter />} />
+
+        {/* Donate (single route) */}
         <Route path="/donate" element={<DonatePage />} />
-        <Route path="/donation-success" element={<div className="container py-5"><h2>Thank you! ❤️</h2><p>We’ve recorded your donation.</p></div>} />
+
+        {/* Auth */}
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Example protected route placeholder */}
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* Donation success */}
+        <Route
+          path="/donation-success"
+          element={
+            <div className="container py-5">
+              <h2>Thank you! ❤️</h2>
+              <p>We’ve recorded your donation.</p>
+            </div>
+          }
+        />
+
+        {/* 404 */}
+        <Route
+          path="*"
+          element={
+            <div className="container py-5">
+              <h2>Not Found</h2>
+              <p>The page you’re looking for doesn’t exist.</p>
+            </div>
+          }
+        />
       </Routes>
+
       <Footer />
     </Router>
   );

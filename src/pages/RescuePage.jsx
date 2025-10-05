@@ -14,15 +14,15 @@ const RescuePage = () => {
         category: "Dog",
         breed: "Labrador",
         description: "Found injured near the highway.",
-        status: "Under Treatment",
+        status: "Recovered",
         age: "2 years",
         size: "Medium",
         location: "Pune",
       },
       {
         id: 2,
-        category: "Cat",
-        breed: "Siamese",
+        category: "Dog",
+        breed: "Labrador",
         description: "Rescued from a construction site.",
         status: "Recovered",
         age: "1 year",
@@ -80,7 +80,7 @@ const RescuePage = () => {
                   <Row className="g-0">
                     <Col md={5}>
                       <img
-                        src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+                        src="/assets/images/animals/div.jpeg"
                         className="img-fluid rounded-start h-100"
                         alt="Rescued animal"
                         style={{ objectFit: "cover" }}
