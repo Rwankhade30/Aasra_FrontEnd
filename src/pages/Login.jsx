@@ -1,11 +1,13 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Register.css"; // reuse the same CSS
+import { useAuth } from "../context/AuthContext"; // <-- ensure this exact import path
+import "./Register.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [identifier, setIdentifier] = useState(""); // username or email
+  const { login, loading } = useAuth(); // use context login + loading
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [globalError, setGlobalError] = useState(null);
@@ -21,6 +23,7 @@ export default function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     setGlobalError(null);
+
     const errs = validate();
     if (Object.keys(errs).length) {
       setFieldErrors(errs);
@@ -30,29 +33,16 @@ export default function Login() {
     setSubmitting(true);
 
     try {
-      const payload = identifier.includes("@")
+      // Build creds for context.login (supports username OR email)
+      const creds = identifier.includes("@")
         ? { email: identifier.trim(), password }
         : { username: identifier.trim(), password };
 
-      const base = process.env.REACT_APP_API_URL || "http://localhost:5000";
-      const res = await fetch(`${base}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Login failed");
-
-      if (data.accessToken) {
-        localStorage.setItem("accessToken", data.accessToken);
-        if (data.user) localStorage.setItem("user", JSON.stringify(data.user));
-      }
-
-      navigate("/dashboard");
+      await login(creds);           // <-- IMPORTANT: await so Navbar sees state
+      navigate("/rescues");       // redirect after successful login
     } catch (err) {
-      setGlobalError(err.message || "Something went wrong");
+      // If your context throws on non-2xx, you'll land here
+      setGlobalError(err.message || "Login failed");
     } finally {
       setSubmitting(false);
     }
@@ -61,7 +51,6 @@ export default function Login() {
   return (
     <div className="reg-page">
       <div className="reg-card">
-        {/*  title (login-title class) */}
         <h1 className="reg-title login-title">Welcome Back</h1>
 
         {globalError && <div className="reg-alert">{globalError}</div>}
@@ -113,7 +102,6 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Forgot password link */}
           <div className="text-right" style={{ marginTop: "-6px", marginBottom: "10px" }}>
             <Link to="/forgot-password" className="link" style={{ color: "green" }}>
               Forgot password?
@@ -121,18 +109,16 @@ export default function Login() {
           </div>
 
           <div className="reg-actions">
-            {/* Blue login button (login-btn class) */}
             <button
               type="submit"
               className="btn-submit login-btn"
-              disabled={submitting}
+              disabled={submitting || loading}  // also disable while context is working
             >
-              {submitting ? "Signing in..." : "Sign In"}
+              {submitting || loading ? "Signing in..." : "Sign In"}
             </button>
           </div>
         </form>
 
-        {/* Footer link styled blue */}
         <div className="reg-footer login-footer">
           <p>
             Don’t have an account?{" "}
